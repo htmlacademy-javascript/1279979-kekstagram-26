@@ -1,15 +1,22 @@
-function getRandomPositiveInteger(a, b) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-}
-getRandomPositiveInteger(1, 100);
+import { getRandomNoRepeatNumber, getRandomPositiveInteger, getRandomArrayElement, getRandomMessage } from './apps.js';
+import { ID_NUMBERS, URL_NUMBERS, ID_COMMENT_NUMBERS, DESCRIPTIONS, MESSAGES, NAMES } from './data.js';
 
 
-function checkStringLength(string, length) {
-  return string.length <= length;
-}
+const getRandomPhotoDescription = () => ({
+  id: getRandomNoRepeatNumber(ID_NUMBERS),
+  url: `photos/${getRandomNoRepeatNumber(URL_NUMBERS)}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomPositiveInteger(15, 200),
+  comments: Array.from({ length: 4 }, () => ({
+    id: getRandomNoRepeatNumber(ID_COMMENT_NUMBERS),
+    avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
+    message: getRandomMessage(MESSAGES),
+    name: getRandomArrayElement(NAMES),
+  }))
+});
 
-checkStringLength('saasdasdasdasdasdasdasdasdsa', 10);
+
+const similarPhotoDescription = Array.from({ length: 25 }, getRandomPhotoDescription);
+
+console.log(similarPhotoDescription);
 
