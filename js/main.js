@@ -1,14 +1,14 @@
-import { getRandomNoRepeatNumber, getRandomPositiveInteger, getRandomArrayElement, getRandomMessage } from './apps.js';
-import { ID_NUMBERS, URL_NUMBERS, ID_COMMENT_NUMBERS, DESCRIPTIONS, MESSAGES, NAMES } from './data.js';
+import { getRandomPositiveInteger, getRandomArrayElement, getRandomMessage, randomSort } from './apps.js';
+import { PHOTO_COUNTER, DESCRIPTIONS, MESSAGES, NAMES } from './data.js';
 
 
-const getRandomPhotoDescription = () => ({
-  id: getRandomNoRepeatNumber(ID_NUMBERS),
-  url: `photos/${getRandomNoRepeatNumber(URL_NUMBERS)}.jpg`,
+const getRandomPhotoDescription = (indexPhoto) => ({
+  id: indexPhoto + 1,
+  url: `photos/${indexPhoto + 1}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
-  comments: Array.from({ length: 4 }, () => ({
-    id: getRandomNoRepeatNumber(ID_COMMENT_NUMBERS),
+  comments: Array.from({ length: 4 }, (indexComment) => ({
+    id: indexComment + 1,
     avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
     message: getRandomMessage(MESSAGES),
     name: getRandomArrayElement(NAMES),
@@ -16,7 +16,7 @@ const getRandomPhotoDescription = () => ({
 });
 
 
-const similarPhotoDescription = Array.from({ length: 25 }, getRandomPhotoDescription);
+const similarPhotoDescription = Array.from({ length: PHOTO_COUNTER }, getRandomPhotoDescription);
 
-console.log(similarPhotoDescription);
+randomSort(similarPhotoDescription);
 

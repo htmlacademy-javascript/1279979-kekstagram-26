@@ -1,11 +1,6 @@
 
-const ID_NUMBERS = [];
 
-const URL_NUMBERS = [];
-
-const ID_COMMENT_NUMBERS = [];
-
-const ID_NUMBER_COUNTER = 25;
+const PHOTO_COUNTER = 25;
 
 
 const DESCRIPTIONS = [
@@ -44,5 +39,4 @@ const NAMES = [
   'Василий',
 ];
 
-
-export { ID_NUMBERS, URL_NUMBERS, ID_NUMBER_COUNTER, ID_COMMENT_NUMBERS, DESCRIPTIONS, MESSAGES, NAMES };
+export { PHOTO_COUNTER, DESCRIPTIONS, MESSAGES, NAMES };
