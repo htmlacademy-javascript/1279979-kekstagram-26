@@ -1,7 +1,7 @@
-
+import { getRandomPositiveInteger, getRandomArrayElement, getRandomMessage, getRandomId } from './utils.js';
 
 const PHOTO_COUNTER = 25;
-
+const MAX_ID = 1000;
 
 const DESCRIPTIONS = [
   'Если чётко сформулировать желание для Вселенной, то всё обязательно сбудется. Верьте в себя. Главное хотеть и мечтать..... / I\'ve bought some potatoes.',
@@ -39,4 +39,25 @@ const NAMES = [
   'Василий',
 ];
 
-export { PHOTO_COUNTER, DESCRIPTIONS, MESSAGES, NAMES };
+const generateId = getRandomId(1, PHOTO_COUNTER);
+const generatePhotoNumber = getRandomId(1, PHOTO_COUNTER);
+const generateCommentId = getRandomId(1, MAX_ID);
+
+const getRandomPhotoDescription = () => ({
+  id: generateId(),
+  url: `photos/${generatePhotoNumber()}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomPositiveInteger(15, 200),
+  comments: Array.from({ length: 4 }, () => ({
+    id: generateCommentId(),
+    avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
+    message: getRandomMessage(MESSAGES),
+    name: getRandomArrayElement(NAMES),
+  }))
+});
+
+
+const getSimilarPhotosDescriptions = () => Array.from({ length: PHOTO_COUNTER }, getRandomPhotoDescription);
+
+export { getSimilarPhotosDescriptions };
+
