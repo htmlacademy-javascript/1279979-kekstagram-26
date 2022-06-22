@@ -1,4 +1,3 @@
 
-import { getSimilarPhotosDescriptions } from './data.js';
-
-getSimilarPhotosDescriptions();
+import { getThumbnail } from './thumbnail-rendering.js';
+getThumbnail();
