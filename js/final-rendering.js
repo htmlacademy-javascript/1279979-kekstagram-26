@@ -1,2 +1,2 @@
-import { createPopup } from './popup-rendering.js';
-createPopup();
+import { getThumbnail } from './thumbnail-rendering.js';
+getThumbnail();

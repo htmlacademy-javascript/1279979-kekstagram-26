@@ -1,8 +1,4 @@
-import { getThumbnail, containerImagesOtherUsers, similarPhotos } from './thumbnail-rendering.js';
-getThumbnail();
-
 const bigPicture = document.querySelector('.big-picture');
-const thumbnails = containerImagesOtherUsers.querySelectorAll('.picture');
 const closeButton = document.querySelector('.big-picture__cancel');
 const fullPhoto = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.social__likes .likes-count');
@@ -45,16 +41,5 @@ const createFullPhoto = (data) => {
   commentLoader.classList.add('hidden');
   document.body.classList.add('modal-open');
 };
-
-const createPopup = () => {
-  thumbnails.forEach((thumbnail) => {
-    thumbnail.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      const photoId = +thumbnail.dataset.id;
-      const photoData = similarPhotos.find((item) => item.id === photoId);
-      createFullPhoto(photoData);
-    });
-  });
-};
-export { createPopup };
+export { createFullPhoto };
 

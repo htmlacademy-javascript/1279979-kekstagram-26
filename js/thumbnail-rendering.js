@@ -1,5 +1,5 @@
 import { getSimilarPhotosDescriptions } from './data.js';
-
+import { createFullPhoto } from './popup-rendering.js';
 const similarPhotos = getSimilarPhotosDescriptions();
 const containerImagesOtherUsers = document.querySelector('.pictures');
 const pictureUserTemplate = document.querySelector('#picture')
@@ -8,15 +8,20 @@ const pictureUserTemplate = document.querySelector('#picture')
 
 const photosListFragment = document.createDocumentFragment();
 
-similarPhotos.forEach(({ id, url, likes, comments }) => {
+similarPhotos.forEach((photo) => {
   const pictureUserElement = pictureUserTemplate.cloneNode(true);
-  pictureUserElement.querySelector('.picture__img').src = url;
-  pictureUserElement.querySelector('.picture__likes').textContent = likes;
-  pictureUserElement.querySelector('.picture__comments').textContent = comments.length;
-  pictureUserElement.dataset.id = id;
+  pictureUserElement.querySelector('.picture__img').src = photo.url;
+  pictureUserElement.querySelector('.picture__likes').textContent = photo.likes;
+  pictureUserElement.querySelector('.picture__comments').textContent = photo.comments.length;
   photosListFragment.append(pictureUserElement);
+  pictureUserElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    createFullPhoto(photo);
+  });
 });
 
 
 const getThumbnail = () => containerImagesOtherUsers.append(photosListFragment);
 export { getThumbnail, containerImagesOtherUsers, similarPhotos };
+
+
