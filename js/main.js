@@ -1,3 +1,1 @@
-
-import { getThumbnail } from './thumbnail-rendering.js';
-getThumbnail();
+import './final-rendering.js';
