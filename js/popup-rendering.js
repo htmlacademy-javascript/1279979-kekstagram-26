@@ -14,6 +14,18 @@ const commentCountNumber = bigPicture.querySelector('.social__comment-count .com
 const fullPhotoDescription = bigPicture.querySelector('.social__caption');
 const commentLoader = bigPicture.querySelector('.comments-loader');
 
+closeButton.addEventListener('click', () => {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+});
+
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+  }
+});
+
 const createFullPhoto = (data) => {
   bigPicture.classList.remove('hidden');
   fullPhoto.src = data.url;
@@ -34,20 +46,6 @@ const createFullPhoto = (data) => {
   document.body.classList.add('modal-open');
 };
 
-const closeFullPhoto = () => {
-  closeButton.addEventListener('click', () => {
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      bigPicture.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-    }
-  });
-};
-
 const createPopup = () => {
   thumbnails.forEach((thumbnail) => {
     thumbnail.addEventListener('click', (evt) => {
@@ -55,7 +53,6 @@ const createPopup = () => {
       const photoId = +thumbnail.dataset.id;
       const photoData = similarPhotos.find((item) => item.id === photoId);
       createFullPhoto(photoData);
-      closeFullPhoto();
     });
   });
 };
