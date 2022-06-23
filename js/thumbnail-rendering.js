@@ -8,14 +8,15 @@ const pictureUserTemplate = document.querySelector('#picture')
 
 const photosListFragment = document.createDocumentFragment();
 
-similarPhotos.forEach(({ url, likes, comments }) => {
+similarPhotos.forEach(({ id, url, likes, comments }) => {
   const pictureUserElement = pictureUserTemplate.cloneNode(true);
   pictureUserElement.querySelector('.picture__img').src = url;
   pictureUserElement.querySelector('.picture__likes').textContent = likes;
   pictureUserElement.querySelector('.picture__comments').textContent = comments.length;
+  pictureUserElement.dataset.id = id;
   photosListFragment.append(pictureUserElement);
 });
 
 
 const getThumbnail = () => containerImagesOtherUsers.append(photosListFragment);
-export { getThumbnail };
+export { getThumbnail, containerImagesOtherUsers, similarPhotos };

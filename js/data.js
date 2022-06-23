@@ -48,7 +48,7 @@ const getRandomPhotoDescription = () => ({
   url: `photos/${generatePhotoNumber()}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
-  comments: Array.from({ length: 4 }, () => ({
+  comments: Array.from({ length: 6 }, () => ({
     id: generateCommentId(),
     avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
     message: getRandomMessage(MESSAGES),
