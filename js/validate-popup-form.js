@@ -40,8 +40,9 @@ imageUploadForm.addEventListener('submit', (evt) => {
   if (textHashtags.value === '') {
     return;
   }
-  const isValid = pristine.validate();
-  if (!isValid) {
+  pristine.validate();
+  const errors = pristine.getErrors();
+  if (errors.length) {
     evt.preventDefault();
   }
 });
