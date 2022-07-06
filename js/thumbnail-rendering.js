@@ -1,5 +1,5 @@
 import { getSimilarPhotosDescriptions } from './data.js';
-import { createFullPhoto } from './popup-rendering.js';
+import { createFullPhoto, openFullPhoto } from './popup-rendering.js';
 const similarPhotos = getSimilarPhotosDescriptions();
 const containerImagesOtherUsers = document.querySelector('.pictures');
 const pictureUserTemplate = document.querySelector('#picture')
@@ -17,6 +17,7 @@ similarPhotos.forEach((photo) => {
   pictureUserElement.addEventListener('click', (evt) => {
     evt.preventDefault();
     createFullPhoto(photo);
+    openFullPhoto();
   });
 });
 
