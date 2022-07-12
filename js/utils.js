@@ -31,7 +31,8 @@ const randomSort = (array) => array.sort(() => 0.5 - Math.random());
 
 const getRandomMessage = (array) => randomSort(array).slice(0, getRandomPositiveInteger(1, 2)).join(' ');
 
+const convertStringToNumber = (srt) => +srt.slice(0, -1);
 
-export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement, getRandomMessage, getRandomId };
+export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement, getRandomMessage, getRandomId , convertStringToNumber };
 
 

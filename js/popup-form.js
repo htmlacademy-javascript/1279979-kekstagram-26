@@ -1,4 +1,4 @@
-
+import {onChangeBiggerScale, onChangeSmallerScale,scaleBiggerButton,scaleSmallerButton} from './image-editor.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const loadUserPhoto = imageUploadForm.querySelector('#upload-file');
@@ -21,12 +21,16 @@ const openOpenForm = () => {
   imageEditor.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onPopupKeyDown);
+  scaleSmallerButton.addEventListener('click', onChangeSmallerScale);
+  scaleBiggerButton.addEventListener('click', onChangeBiggerScale);
 };
 
 const closeForm = () => {
   imageEditor.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupKeyDown);
+  scaleBiggerButton.removeEventListener('click', onChangeBiggerScale);
+  scaleSmallerButton.removeEventListener('click', onChangeSmallerScale);
   imageUploadForm.reset();
 };
 
