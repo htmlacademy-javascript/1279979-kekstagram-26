@@ -15,7 +15,7 @@ const loadCommentButton = bigPicture.querySelector('.social__comments-loader');
 
 let renderOtherComments;
 let renderCommentsList;
-const MAX_NUMBER_COMMENTS = 2;
+const MAX_NUMBER_COMMENTS = 7;
 let commentsCount = 0;
 
 
@@ -24,7 +24,7 @@ const createComment = (value) => {
   newCommentItem.dataset.id = value.id;
   newCommentItem.querySelector('.social__picture').src = value.avatar;
   newCommentItem.querySelector('.social__picture').alt = value.name;
-  newCommentItem.querySelector('.social__text').textContent = value.id;
+  newCommentItem.querySelector('.social__text').textContent = value.message;
 
   return newCommentItem;
 };
