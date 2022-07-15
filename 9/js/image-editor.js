@@ -14,14 +14,14 @@ const MIN_SCALE_VALUE = 25;
 
 imgUploadPreview.classList.add('effects__preview--none');
 
-const createHiddenInput = (name, value) => {
-  const  hiddenInput = document.createElement('input');
 
-  hiddenInput.type = 'hidden';
-  hiddenInput.name = name;
-  hiddenInput.value = value;
-  imageUploadForm.append(hiddenInput);
-};
+const  hiddenInput = document.createElement('input');
+
+hiddenInput.type = 'hidden';
+hiddenInput.name = 'effect-value-hidden';
+hiddenInput.value = '';
+imageUploadForm.append(hiddenInput);
+
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -60,8 +60,9 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `invert(${effectLevelValue.value}%)`;
+      hiddenInput.value = effectLevelValue.value;
+
     });
-    createHiddenInput(evt.target.value, `${effectLevelValue.value}%`);
 
     sliderElement.noUiSlider.updateOptions({
       range: {
@@ -75,8 +76,8 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `blur(${effectLevelValue.value}px)`;
+      hiddenInput.value = effectLevelValue.value;
     });
-    createHiddenInput(evt.target.value, `${effectLevelValue.value}px`);
 
     sliderElement.noUiSlider.updateOptions({
       range: {
@@ -90,8 +91,8 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `brightness(${effectLevelValue.value})`;
+      hiddenInput.value = effectLevelValue.value;
     });
-    createHiddenInput(evt.target.value, `${effectLevelValue.value}`);
 
     sliderElement.noUiSlider.updateOptions({
       range: {
@@ -105,8 +106,8 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `grayscale(${effectLevelValue.value})`;
+      hiddenInput.value = effectLevelValue.value;
     });
-    createHiddenInput(evt.target.value, `${effectLevelValue.value}`);
 
     sliderElement.noUiSlider.updateOptions({
       range: {
@@ -120,8 +121,8 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `sepia(${effectLevelValue.value})`;
+      hiddenInput.value = effectLevelValue.value;
     });
-    createHiddenInput(evt.target.value, `${effectLevelValue.value}`);
 
     sliderElement.noUiSlider.updateOptions({
       range: {
