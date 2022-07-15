@@ -13,7 +13,7 @@ const fullPhotoDescription = bigPicture.querySelector('.social__caption');
 const loadCommentButton = bigPicture.querySelector('.social__comments-loader');
 
 
-let renderOtherComments;
+let onRenderOtherComments;
 let renderCommentsList;
 const MAX_NUMBER_COMMENTS = 7;
 let commentsCount = 0;
@@ -55,7 +55,7 @@ const createFullPhoto = (data) => {
   fullPhotoDescription.textContent = data.description;
   createCommentsList(data.comments);
   commentsCount = commentList.children.length;
-  renderOtherComments = () => {
+  onRenderOtherComments = () => {
     const uniqueComments = [];
     const comments = data.comments;
     commentsCount += MAX_NUMBER_COMMENTS;
@@ -74,7 +74,7 @@ const createFullPhoto = (data) => {
     }
   };
 
-  loadCommentButton.addEventListener('click', renderOtherComments);
+  loadCommentButton.addEventListener('click', onRenderOtherComments);
 };
 
 const openFullPhoto = () => {
@@ -90,7 +90,7 @@ const closeFullPhoto = () => {
   document.removeEventListener('keydown', onPopupKeyDown);
   document.body.classList.remove('modal-open');
   commentList.innerHTML = '';
-  loadCommentButton.removeEventListener('click', renderOtherComments);
+  loadCommentButton.removeEventListener('click', onRenderOtherComments);
   commentsCount = 0;
 };
 
