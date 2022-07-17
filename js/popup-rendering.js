@@ -15,7 +15,7 @@ const loadCommentButton = bigPicture.querySelector('.social__comments-loader');
 
 let onRenderOtherComments;
 let renderCommentsList;
-const MAX_NUMBER_COMMENTS = 7;
+const MAX_NUMBER_COMMENTS = 5;
 let commentsCount = 0;
 
 
@@ -102,5 +102,5 @@ closeButton.addEventListener('click', () => {
   closeFullPhoto();
 });
 
-export { createFullPhoto, openFullPhoto };
+export { createFullPhoto, openFullPhoto, closeFullPhoto };
 

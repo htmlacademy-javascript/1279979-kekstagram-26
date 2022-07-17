@@ -12,15 +12,15 @@ const STEP_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
 const MIN_SCALE_VALUE = 25;
 
-imgUploadPreview.classList.add('effects__preview--none');
 
+const setDefaultState = () => {
+  imgUploadPreview.className = ('effects__preview--none');
+  sliderElement.classList.add('hidden');
+  imgUploadPreview.style = '';
+  imageUploadForm.reset();
+};
 
-const  hiddenInput = document.createElement('input');
-
-hiddenInput.type = 'hidden';
-hiddenInput.name = 'effect-value-hidden';
-hiddenInput.value = '';
-imageUploadForm.append(hiddenInput);
+setDefaultState();
 
 
 noUiSlider.create(sliderElement, {
@@ -60,7 +60,6 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `invert(${effectLevelValue.value}%)`;
-      hiddenInput.value = effectLevelValue.value;
 
     });
 
@@ -76,7 +75,6 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `blur(${effectLevelValue.value}px)`;
-      hiddenInput.value = effectLevelValue.value;
     });
 
     sliderElement.noUiSlider.updateOptions({
@@ -91,7 +89,6 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `brightness(${effectLevelValue.value})`;
-      hiddenInput.value = effectLevelValue.value;
     });
 
     sliderElement.noUiSlider.updateOptions({
@@ -106,7 +103,6 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `grayscale(${effectLevelValue.value})`;
-      hiddenInput.value = effectLevelValue.value;
     });
 
     sliderElement.noUiSlider.updateOptions({
@@ -121,7 +117,6 @@ effectsList.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValue.value = sliderElement.noUiSlider.get();
       imgUploadPreview.style.filter = `sepia(${effectLevelValue.value})`;
-      hiddenInput.value = effectLevelValue.value;
     });
 
     sliderElement.noUiSlider.updateOptions({
@@ -139,4 +134,4 @@ effectsList.addEventListener('change', (evt) => {
 });
 
 
-export {onChangeBiggerScale, onChangeSmallerScale,scaleSmallerButton,scaleBiggerButton};
+export {onChangeBiggerScale, onChangeSmallerScale,scaleSmallerButton,scaleBiggerButton, setDefaultState};

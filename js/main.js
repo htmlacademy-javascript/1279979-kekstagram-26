@@ -1,3 +1,5 @@
-import './final-rendering.js';
-import './popup-form.js';
-import './validate-popup-form.js';
+import { getData } from './data.js';
+import {setUserFormSubmit} from './validate-popup-form.js';
+
+getData();
+setUserFormSubmit();
