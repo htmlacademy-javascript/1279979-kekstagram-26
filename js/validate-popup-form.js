@@ -1,11 +1,13 @@
-import { imageUploadForm, textHashtags } from './popup-form.js';
+import { imageUploadForm, textHashtags, blockSubmitButton } from './popup-form.js';
+import { sendData } from './data.js';
+
 
 const HASHTAG_VALID_REGEX = /^#[A-Za-zA-Яа-яЁё0-9]{1,19}$/;
 const HASHTAG_MAX_QUALITY = 5;
 const HASHTAG_VALID_CONDITION = '<br>хэш-тег начинается с символа # (решётка); строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.; хеш-тег не может состоять только из одной решётки; максимальная длина одного хэш-тега 20 символов, включая решётку; хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом; хэш-теги разделяются пробелами;';
 
 
-const getHashTagsArray = (value) => value.trim().toLowerCase().split(/\s+/);
+const getHashTagsArray = (value) => value.trim().toLowerCase().split(' ').filter(Boolean);
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__error',
@@ -15,11 +17,11 @@ const pristine = new Pristine(imageUploadForm, {
 });
 
 
-pristine.addValidator(textHashtags, (value) => value === ' ');
-
 pristine.addValidator(textHashtags, (value) => {
   const hashTags = getHashTagsArray(value);
-  return hashTags.every((hashtag) => !!(HASHTAG_VALID_REGEX.test(hashtag)));
+  const result =  hashTags.every((hashtag) => (HASHTAG_VALID_REGEX.test(hashtag)));
+  return result;
+
 }, HASHTAG_VALID_CONDITION);
 
 pristine.addValidator(textHashtags, (value) => {
@@ -35,15 +37,21 @@ pristine.addValidator(textHashtags, (value) => {
 }, 'Один и тот же хэш-тег не может быть использован дважды;');
 
 
-imageUploadForm.addEventListener('submit', (evt) => {
-
-  if (textHashtags.value === '') {
-    return;
-  }
-  pristine.validate();
-  const errors = pristine.getErrors();
-  if (errors.length) {
+const setUserFormSubmit = () => {
+  imageUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
 
+    pristine.validate();
+    blockSubmitButton();
+    const formData = new FormData(evt.target);
+    sendData(formData, ()=>{
+      pristine.reset();
+    });
+    const errors = pristine.getErrors();
+    if (errors.length) {
+      evt.preventDefault();
+    }
+  });
+};
+
+export {setUserFormSubmit};

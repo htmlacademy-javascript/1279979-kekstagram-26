@@ -6,7 +6,18 @@ const imageEditor = imageUploadForm.querySelector('.img-upload__overlay');
 const closeImageUploadForm = imageUploadForm.querySelector('#upload-cancel');
 const textHashtags = imageUploadForm.querySelector('.text__hashtags');
 const textDescription = imageUploadForm.querySelector('.text__description');
+const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
 
 const onPopupKeyDown = (evt) => {
   if (evt.key === 'Escape') {
@@ -48,4 +59,4 @@ imageUploadForm.addEventListener('keydown', (evt) => {
   }
 });
 
-export { imageUploadForm, textHashtags };
+export { imageUploadForm, textHashtags, closeForm, blockSubmitButton, unblockSubmitButton };
