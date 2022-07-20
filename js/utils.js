@@ -31,7 +31,7 @@ const randomSort = (array) => array.sort(() => 0.5 - Math.random());
 
 const getRandomMessage = (array) => randomSort(array).slice(0, getRandomPositiveInteger(1, 2)).join(' ');
 
-const convertStringToNumber = (srt) => +srt.slice(0, -1);
+const convertStringPercentToNumber = (srt) => +srt.slice(0, -1);
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -54,6 +54,29 @@ const showAlert = (message) => {
   }, 5000);
 };
 
-export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement, getRandomMessage, getRandomId , convertStringToNumber, showAlert };
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const throttle = (callback, delayBetweenFrames) => {
+
+  let lastTime = 0;
+
+  return (...rest) => {
+    const now = new Date();
+
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+};
+
+export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement, getRandomMessage, getRandomId , convertStringPercentToNumber, showAlert, throttle, debounce };
 
 
