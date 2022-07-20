@@ -1,4 +1,4 @@
-import { convertStringToNumber } from './utils.js';
+import { convertStringPercentToNumber } from './utils.js';
 const imageUploadForm = document.querySelector('.img-upload__form');
 const scaleSmallerButton = imageUploadForm.querySelector('.scale__control--smaller');
 const scaleBiggerButton = imageUploadForm.querySelector('.scale__control--bigger');
@@ -34,21 +34,21 @@ noUiSlider.create(sliderElement, {
 });
 
 const onChangeSmallerScale = () => {
-  const number = convertStringToNumber(scaleValueIpnut.value);
+  const number = convertStringPercentToNumber(scaleValueIpnut.value);
   const currentValue = `${number - STEP_SCALE_VALUE}%`;
   if(number > MIN_SCALE_VALUE) {
     scaleValueIpnut.value = currentValue;
-    imgUploadPreview.style.transform = `scale(${convertStringToNumber(currentValue) * 0.01})`;
+    imgUploadPreview.style.transform = `scale(${convertStringPercentToNumber(currentValue) * 0.01})`;
   }
 };
 
 
 const onChangeBiggerScale = () => {
-  const number = convertStringToNumber(scaleValueIpnut.value);
+  const number = convertStringPercentToNumber(scaleValueIpnut.value);
   const currentValue = `${number + STEP_SCALE_VALUE}%`;
   if(number < MAX_SCALE_VALUE) {
     scaleValueIpnut.value = currentValue;
-    imgUploadPreview.style.transform = `scale(${convertStringToNumber(currentValue) * 0.01})`;
+    imgUploadPreview.style.transform = `scale(${convertStringPercentToNumber(currentValue) * 0.01})`;
   }
 };
 

@@ -63,7 +63,7 @@
 
                   <!-- Изменение глубины эффекта, накладываемого на изображение -->
                   <fieldset class="img-upload__effect-level  effect-level">
-                    <input class="effect-level__value" type="number" step="any" name="effect-level" value="">
+                    <input class="effect-level__value" type="hidden" step="any" name="effect-level" value="">
                     <div class="effect-level__slider"></div>
                   </fieldset>
 
@@ -131,8 +131,8 @@
                     <input type="text" class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
                   </div>
                   <div class="img-upload__field-wrapper img-upload__error">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."
-                      maxlength="140"
+                    <textarea class="text__description" name="description"
+                      placeholder="Ваш комментарий...не более 140 символов" maxlength="140"
                       data-pristine-maxlength-message="длина комментария не может составлять больше 140 символов"></textarea>
                   </div>
                 </fieldset>
