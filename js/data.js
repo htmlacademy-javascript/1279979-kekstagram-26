@@ -2,7 +2,7 @@ import { renderThumbnails, renderRandomThumbnails, renderDicsussedThumbnails } f
 import {showAlert, debounce} from './utils.js';
 import { unblockSubmitButton, closeForm } from './popup-form.js';
 import {setDefaultState} from './image-editor.js';
-import { showFilters, setRandomClick, setDefaultclick, setDiscussedclick} from './filter.js';
+import { showFilters, setRandomClick, setDefaultСlick, setDiscussedClick} from './filter.js';
 
 import { getSuccesMessage, getErrorMessage } from './result-message.js';
 const RERENDER_DELAY = 500;
@@ -12,9 +12,9 @@ const getData = () => {
     .then((photos) => {
       renderThumbnails(photos);
       showFilters();
-      setDefaultclick(debounce(()=> renderThumbnails(photos)), RERENDER_DELAY);
+      setDefaultСlick(debounce(()=> renderThumbnails(photos)), RERENDER_DELAY);
       setRandomClick(debounce(() => renderRandomThumbnails(photos)), RERENDER_DELAY);
-      setDiscussedclick(debounce(() => renderDicsussedThumbnails(photos)), RERENDER_DELAY);
+      setDiscussedClick(debounce(() => renderDicsussedThumbnails(photos)), RERENDER_DELAY);
     })
     .catch(() => showAlert('Ошибка при загрузке данных, попробуйте обновить страницу'));
 };

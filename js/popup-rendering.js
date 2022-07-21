@@ -18,6 +18,11 @@ let renderCommentsList;
 const MAX_NUMBER_COMMENTS = 5;
 let commentsCount = 0;
 
+const hideButtonLoadMore = (data) => {
+  if(commentsCount >= data.comments.length) {
+    loadCommentButton.classList.toggle('hidden');
+  }
+};
 
 const createComment = (value) => {
   const newCommentItem = commentItem.cloneNode(true);
@@ -69,10 +74,10 @@ const createFullPhoto = (data) => {
       }
     });
     createCommentsList(uniqueComments);
-    if(commentsCount >= data.comments.length) {
-      loadCommentButton.classList.toggle('hidden');
-    }
+    hideButtonLoadMore(data);
   };
+
+  hideButtonLoadMore(data);
 
   loadCommentButton.addEventListener('click', onRenderOtherComments);
 };

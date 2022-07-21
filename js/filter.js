@@ -5,13 +5,13 @@ const filterRandomButton = imgFiltersForm.querySelector('#filter-random');
 const filterDiscussedButton = imgFiltersForm.querySelector('#filter-discussed');
 const filterDefaultButton = imgFiltersForm.querySelector('#filter-default');
 
-const setDefaultclick = (cb) => {
+const setDefaultСlick = (cb) => {
   filterDefaultButton.addEventListener('click', ()=> {
     cb();
   });
 };
 
-const setDiscussedclick = (cb) => {
+const setDiscussedClick = (cb) => {
   filterDiscussedButton.addEventListener('click', ()=> {
     cb();
   });
@@ -40,4 +40,4 @@ const showFilters = () => {
   imgFilters.classList.remove('img-filters--inactive');
 };
 
-export {showFilters, setRandomClick, setDiscussedclick, setDefaultclick};
+export {showFilters, setRandomClick, setDiscussedClick, setDefaultСlick};
