@@ -2,12 +2,17 @@ import {onChangeBiggerScale, onChangeSmallerScale,scaleBiggerButton,scaleSmaller
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const loadUserPhoto = imageUploadForm.querySelector('#upload-file');
+const imgUploadPreview = imageUploadForm.querySelector('.img-upload__preview img');
 const imageEditor = imageUploadForm.querySelector('.img-upload__overlay');
 const closeImageUploadForm = imageUploadForm.querySelector('#upload-cancel');
 const textHashtags = imageUploadForm.querySelector('.text__hashtags');
 const textDescription = imageUploadForm.querySelector('.text__description');
 const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 
+const showPreview = () => {
+  const file = loadUserPhoto.files[0];
+  imgUploadPreview.src = URL.createObjectURL(file);
+};
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -28,7 +33,7 @@ const onPopupKeyDown = (evt) => {
   }
 };
 
-const openOpenForm = () => {
+const openForm = () => {
   imageEditor.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onPopupKeyDown);
@@ -46,7 +51,8 @@ const closeForm = () => {
 };
 
 loadUserPhoto.addEventListener('change', () => {
-  openOpenForm();
+  openForm();
+  showPreview();
   closeImageUploadForm.addEventListener('click', () => {
     closeForm();
   });
