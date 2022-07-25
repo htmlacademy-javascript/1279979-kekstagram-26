@@ -46,7 +46,7 @@ const effectSetting = {
 const setDefaultState = () => {
   imgUploadPreview.className = ('effects__preview--none');
   sliderElement.classList.add('hidden');
-  imgUploadPreview.style.transform = 'scale(1)';
+  imgUploadPreview.style = '';
   imageUploadForm.reset();
   sliderEffectLevel.classList.add('hidden');
 };
