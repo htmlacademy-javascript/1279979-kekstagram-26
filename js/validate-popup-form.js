@@ -40,7 +40,6 @@ pristine.addValidator(textHashtags, (value) => {
 const setUserFormSubmit = () => {
   imageUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
     pristine.validate();
     blockSubmitButton();
     const formData = new FormData(evt.target);

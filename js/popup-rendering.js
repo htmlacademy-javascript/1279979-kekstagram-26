@@ -12,7 +12,7 @@ const allCommentCount = bigPicture.querySelector('.social__comment-count .commen
 const fullPhotoDescription = bigPicture.querySelector('.social__caption');
 const loadCommentButton = bigPicture.querySelector('.social__comments-loader');
 
-
+let closeFullPhoto = null;
 let onRenderOtherComments;
 let renderCommentsList;
 const MAX_NUMBER_COMMENTS = 5;
@@ -46,11 +46,11 @@ const createCommentsList = (dataArrayComments) => {
 
 const onPopupKeyDown = (evt) => {
   if (evt.key === 'Escape') {
-    evt.preventDefault();
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', onPopupKeyDown);
+    closeFullPhoto();
   }
+};
+const onCloseButtonClick = () => {
+  closeFullPhoto();
 };
 
 const createFullPhoto = (data) => {
@@ -87,25 +87,23 @@ const openFullPhoto = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onPopupKeyDown);
   loadCommentButton.classList.remove('hidden');
+  closeButton.addEventListener('click', onCloseButtonClick);
 };
 
 
-const closeFullPhoto = () => {
+closeFullPhoto = () => {
   bigPicture.classList.add('hidden');
   document.removeEventListener('keydown', onPopupKeyDown);
   document.body.classList.remove('modal-open');
   commentList.innerHTML = '';
   loadCommentButton.removeEventListener('click', onRenderOtherComments);
   commentsCount = 0;
+  closeButton.removeEventListener('click', onCloseButtonClick);
 };
 
 
 closeFullPhoto();
 
-
-closeButton.addEventListener('click', () => {
-  closeFullPhoto();
-});
 
 export { createFullPhoto, openFullPhoto, closeFullPhoto };
 

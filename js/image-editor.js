@@ -4,20 +4,51 @@ const scaleSmallerButton = imageUploadForm.querySelector('.scale__control--small
 const scaleBiggerButton = imageUploadForm.querySelector('.scale__control--bigger');
 const scaleValueIpnut = imageUploadForm.querySelector('.scale__control--value');
 const imgUploadPreview = imageUploadForm.querySelector('.img-upload__preview img');
+const sliderEffectLevel = imageUploadForm.querySelector('.img-upload__effect-level');
 const sliderElement = imageUploadForm.querySelector('.effect-level__slider');
 const effectsList = imageUploadForm.querySelector('.effects__list');
-const effectLevelValue = imageUploadForm.querySelector('.effect-level__value');
+const effectLevel = imageUploadForm.querySelector('.effect-level__value');
 
+// настройки масштабирования
 const STEP_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
 const MIN_SCALE_VALUE = 25;
 
+// стандартные настройки слайдера
+const MIN_SLIDER_DEFAULT_VALUE = 0;
+const MAX_SLIDER_DEFAULT_VALUE = 1;
+const START_SLIDER_DEFAULT_VALUE = 1;
+const STEP_SLIDER_DEFAULT_VALUE = 0.1;
+
+// настройки слайдера при эффекте marvin
+const MAX_SLIDER_MARVIN_VALUE = 100;
+const START_SLIDER_MARVIN_VALUE = 100;
+const STEP_SLIDER_MARVIN_VALUE = 1;
+
+// настройки слайдера при эффекте phobos
+const MAX_SLIDER_PHOBOS_VALUE = 3;
+const START_SLIDER_PHOBOS_VALUE = 3;
+
+// настройки слайдера при эффекте heat
+const MIN_SLIDER_HEAT_VALUE = 1;
+const MAX_SLIDER_HEAT_VALUE = 3;
+const STEP_SLIDER_HEAT_VALUE = 3;
+
+// настройки стилей для эффектов
+const effectSetting = {
+  'marvin' : ['invert', '%'],
+  'phobos' : ['blur', 'px'],
+  'heat' : 'brightness',
+  'chrome' : 'grayscale',
+  'sepia' : 'sepia',
+};
 
 const setDefaultState = () => {
   imgUploadPreview.className = ('effects__preview--none');
   sliderElement.classList.add('hidden');
-  imgUploadPreview.style = '';
+  imgUploadPreview.style.transform = 'scale(1)';
   imageUploadForm.reset();
+  sliderEffectLevel.classList.add('hidden');
 };
 
 setDefaultState();
@@ -25,15 +56,15 @@ setDefaultState();
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: 0,
-    max: 1,
+    min: MIN_SLIDER_DEFAULT_VALUE,
+    max: MAX_SLIDER_DEFAULT_VALUE,
   },
-  start: 1,
-  step: 0.1,
+  start: START_SLIDER_DEFAULT_VALUE,
+  step: STEP_SLIDER_DEFAULT_VALUE,
   connect: 'lower',
 });
 
-const onChangeSmallerScale = () => {
+const onChangeSmallerScaleClick = () => {
   const number = convertStringPercentToNumber(scaleValueIpnut.value);
   const currentValue = `${number - STEP_SCALE_VALUE}%`;
   if(number > MIN_SCALE_VALUE) {
@@ -43,7 +74,7 @@ const onChangeSmallerScale = () => {
 };
 
 
-const onChangeBiggerScale = () => {
+const onChangeBiggerScaleClick = () => {
   const number = convertStringPercentToNumber(scaleValueIpnut.value);
   const currentValue = `${number + STEP_SCALE_VALUE}%`;
   if(number < MAX_SCALE_VALUE) {
@@ -52,86 +83,83 @@ const onChangeBiggerScale = () => {
   }
 };
 
+const showEffectFilter = (evt) => {
+  const effect = evt.target.value;
+  sliderElement.noUiSlider.on('update', () => {
+    effectLevel.value = sliderElement.noUiSlider.get();
+    if(effect === 'marvin' || effect === 'phobos') {
+      imgUploadPreview.style.filter = `${effectSetting[effect][0]}(${effectLevel.value}${effectSetting[effect][1]})`;
+    }
+    imgUploadPreview.style.filter = `${effectSetting[effect]}(${effectLevel.value})`;
+  });
+};
 
-effectsList.addEventListener('change', (evt) => {
-  imgUploadPreview.className =  `effects__preview--${evt.target.value}`;
-  sliderElement.classList.remove('hidden');
-  if(evt.target.value === 'marvin') {
-    sliderElement.noUiSlider.on('update', () => {
-      effectLevelValue.value = sliderElement.noUiSlider.get();
-      imgUploadPreview.style.filter = `invert(${effectLevelValue.value}%)`;
+const changeEffectFilter = (evt) => {
+  const effect = evt.target.value;
 
-    });
-
+  if(effect === 'marvin') {
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 0,
-        max: 100,
+        min: MIN_SLIDER_DEFAULT_VALUE,
+        max: MAX_SLIDER_MARVIN_VALUE,
       },
-      start: 100,
-      step: 1,
+      start: START_SLIDER_MARVIN_VALUE,
+      step: STEP_SLIDER_MARVIN_VALUE,
     });
-  } else if(evt.target.value === 'phobos') {
-    sliderElement.noUiSlider.on('update', () => {
-      effectLevelValue.value = sliderElement.noUiSlider.get();
-      imgUploadPreview.style.filter = `blur(${effectLevelValue.value}px)`;
-    });
-
+    showEffectFilter(evt);
+  } else if(effect === 'phobos') {
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 0,
-        max: 3,
+        min: MIN_SLIDER_DEFAULT_VALUE,
+        max: MAX_SLIDER_PHOBOS_VALUE,
       },
-      start: 3,
-      step: 0.1,
+      start: START_SLIDER_PHOBOS_VALUE,
+      step: STEP_SLIDER_DEFAULT_VALUE,
     });
-  } else if(evt.target.value === 'heat') {
-    sliderElement.noUiSlider.on('update', () => {
-      effectLevelValue.value = sliderElement.noUiSlider.get();
-      imgUploadPreview.style.filter = `brightness(${effectLevelValue.value})`;
-    });
-
+    showEffectFilter(evt);
+  } else if(effect === 'heat') {
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 1,
-        max: 3,
+        min: MIN_SLIDER_HEAT_VALUE,
+        max: MAX_SLIDER_HEAT_VALUE,
       },
-      start: 3,
-      step: 0.1,
+      start: STEP_SLIDER_HEAT_VALUE,
+      step: STEP_SLIDER_DEFAULT_VALUE,
     });
-  } else if (evt.target.value === 'chrome'){
-    sliderElement.noUiSlider.on('update', () => {
-      effectLevelValue.value = sliderElement.noUiSlider.get();
-      imgUploadPreview.style.filter = `grayscale(${effectLevelValue.value})`;
-    });
-
+    showEffectFilter(evt);
+  } else if(effect === 'chrome') {
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 0,
-        max: 1,
+        min: MIN_SLIDER_DEFAULT_VALUE,
+        max: MAX_SLIDER_DEFAULT_VALUE,
       },
-      start: 1,
-      step: 0.1,
+      start: START_SLIDER_DEFAULT_VALUE,
+      step: STEP_SLIDER_DEFAULT_VALUE,
     });
-  } else if (evt.target.value === 'sepia') {
-    sliderElement.noUiSlider.on('update', () => {
-      effectLevelValue.value = sliderElement.noUiSlider.get();
-      imgUploadPreview.style.filter = `sepia(${effectLevelValue.value})`;
-    });
-
+    showEffectFilter(evt);
+  } else if (effect === 'sepia') {
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 0,
-        max: 1,
+        min: MIN_SLIDER_DEFAULT_VALUE,
+        max: MAX_SLIDER_DEFAULT_VALUE,
       },
-      start: 1,
-      step: 0.1,
+      start: START_SLIDER_DEFAULT_VALUE,
+      step: STEP_SLIDER_DEFAULT_VALUE,
     });
+    showEffectFilter(evt);
   } else if(evt.target.value === 'none') {
     imgUploadPreview.style.filter = '';
-    sliderElement.classList.add('hidden');
+    setDefaultState();
   }
-});
+};
+
+const onEffectListChange = (evt) => {
+  imgUploadPreview.className =  `effects__preview--${evt.target.value}`;
+  sliderElement.classList.remove('hidden');
+  sliderEffectLevel.classList.remove('hidden');
+  changeEffectFilter(evt);
+};
+effectsList.addEventListener('change', onEffectListChange);
 
 
-export {onChangeBiggerScale, onChangeSmallerScale,scaleSmallerButton,scaleBiggerButton, setDefaultState};
+export {onChangeBiggerScaleClick, onChangeSmallerScaleClick,scaleSmallerButton,scaleBiggerButton, setDefaultState};
