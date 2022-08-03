@@ -77,6 +77,7 @@ const throttle = (callback, delayBetweenFrames) => {
   };
 };
 
-export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement, getRandomMessage, getRandomId , convertStringPercentToNumber, showAlert, throttle, debounce };
+
+export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement, getRandomMessage, getRandomId, convertStringPercentToNumber, showAlert, throttle, debounce };
 
 

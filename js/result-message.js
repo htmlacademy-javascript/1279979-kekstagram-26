@@ -1,86 +1,50 @@
-const getSuccesMessage = () => {
-  const succsesMessageTemplate = document.querySelector('#success')
-    .content
-    .querySelector('.success');
-
-  const succsesMessage = succsesMessageTemplate.cloneNode(true);
-  const successButton = succsesMessage.querySelector('.success__button');
-  document.body.appendChild(succsesMessage);
-  let onSuccesMessageOutsideClick = null;
-
-  const onSuccesMessageKeyDown = (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      succsesMessage.classList.add('hidden');
-      document.removeEventListener('keydown', onSuccesMessageKeyDown);
-      document.removeEventListener('click', onSuccesMessageOutsideClick);
-    }
-
-  };
-
-  onSuccesMessageOutsideClick = (evt) => {
-
-    if(succsesMessage === evt.target) {
-      succsesMessage.classList.add('hidden');
-      document.removeEventListener('click', onSuccesMessageOutsideClick);
-      document.removeEventListener('keydown', onSuccesMessageKeyDown);
-    }
-
-  };
-
-  const onSuccessButtonClick = () => {
-    succsesMessage.classList.add('hidden');
-    successButton.removeEventListener('click', onSuccessButtonClick);
-    document.removeEventListener('click', onSuccesMessageOutsideClick);
-    document.removeEventListener('keydown', onSuccesMessageKeyDown);
-  };
-
-  successButton.addEventListener('click', onSuccessButtonClick);
-  document.addEventListener('keydown', onSuccesMessageKeyDown);
-  document.addEventListener('click', onSuccesMessageOutsideClick);
+const MessageType = {
+  SUCCESS: 'success',
+  ERROR: 'error'
 };
 
-const getErrorMessage = () => {
-  const errorMessageTemplate = document.querySelector('#error')
+const getMessage = (selector) => () => {
+  const message = document
+    .querySelector(`#${selector}`)
     .content
-    .querySelector('.error');
+    .querySelector(`.${selector}`)
+    .cloneNode(true);
 
-  const errorMessage = errorMessageTemplate.cloneNode(true);
-  const errorButton = errorMessage.querySelector('.error__button');
-  errorMessage.style.zIndex = '100';
-  document.body.appendChild(errorMessage);
-  let onErrorMessageOutsideClick = null;
+  const button = message.querySelector('button');
+  document.body.appendChild(message);
 
-  const onErrorMessageKeyDown = (evt) => {
+  let onOutsideClick = null;
+
+  const onMessageKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      errorMessage.classList.add('hidden');
-      document.removeEventListener('keydown', onErrorMessageKeyDown);
-      document.removeEventListener('click', onErrorMessageOutsideClick);
+      message.classList.add('hidden');
+      document.removeEventListener('keydown', onMessageKeyDown);
+      document.removeEventListener('click', onOutsideClick);
     }
 
   };
 
-  onErrorMessageOutsideClick = (evt) => {
-    if(errorMessage === evt.target) {
-      errorMessage.classList.add('hidden');
-      document.removeEventListener('click', onErrorMessageOutsideClick);
-      document.removeEventListener('keydown', onErrorMessageKeyDown);
+  onOutsideClick = (evt) => {
+    if (message === evt.target) {
+      message.classList.add('hidden');
+      document.removeEventListener('click', onOutsideClick);
+      document.removeEventListener('keydown', onMessageKeyDown);
     }
-
   };
 
-  const onErrorButtonClick = () => {
-    errorMessage.classList.add('hidden');
-    errorButton.removeEventListener('click', onErrorButtonClick);
-    document.removeEventListener('click', onErrorMessageOutsideClick);
-    document.removeEventListener('keydown', onErrorMessageKeyDown);
+  const onButtonClick = () => {
+    message.classList.add('hidden');
+    button.removeEventListener('click', onButtonClick);
+    document.removeEventListener('click', onOutsideClick);
+    document.removeEventListener('keydown', onMessageKeyDown);
   };
 
-  errorButton.addEventListener('click', onErrorButtonClick);
-  document.addEventListener('keydown', onErrorMessageKeyDown);
-  document.addEventListener('click', onErrorMessageOutsideClick);
+  button.addEventListener('click', onButtonClick);
+  document.addEventListener('keydown', onMessageKeyDown);
+  document.addEventListener('click', onOutsideClick);
 };
 
 
-export {getSuccesMessage, getErrorMessage};
+export const getSuccesMessage = getMessage(MessageType.SUCCESS);
+export const getErrorMessage = getMessage(MessageType.ERROR);

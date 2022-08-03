@@ -19,7 +19,7 @@ const pristine = new Pristine(imageUploadForm, {
 
 pristine.addValidator(textHashtags, (value) => {
   const hashTags = getHashTagsArray(value);
-  const result =  hashTags.every((hashtag) => (HASHTAG_VALID_REGEX.test(hashtag)));
+  const result = hashTags.every((hashtag) => (HASHTAG_VALID_REGEX.test(hashtag)));
   return result;
 
 }, HASHTAG_VALID_CONDITION);
@@ -41,16 +41,19 @@ const setUserFormSubmit = () => {
   imageUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
-    blockSubmitButton();
-    const formData = new FormData(evt.target);
-    sendData(formData, ()=>{
-      pristine.reset();
-    });
+
     const errors = pristine.getErrors();
     if (errors.length) {
-      evt.preventDefault();
+      return;
     }
+
+    blockSubmitButton();
+
+    const formData = new FormData(evt.target);
+    sendData(formData, () => {
+      pristine.reset();
+    });
   });
 };
 
-export {setUserFormSubmit};
+export { setUserFormSubmit };

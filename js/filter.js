@@ -6,33 +6,28 @@ const filterDiscussedButton = imgFiltersForm.querySelector('#filter-discussed');
 const filterDefaultButton = imgFiltersForm.querySelector('#filter-default');
 
 const setDefaultСlick = (cb) => {
-  filterDefaultButton.addEventListener('click', ()=> {
+  filterDefaultButton.addEventListener('click', () => {
     cb();
   });
 };
 
 const setDiscussedClick = (cb) => {
-  filterDiscussedButton.addEventListener('click', ()=> {
+  filterDiscussedButton.addEventListener('click', () => {
     cb();
   });
 };
 
 const setRandomClick = (cb) => {
-  filterRandomButton.addEventListener('click', ()=> {
+  filterRandomButton.addEventListener('click', () => {
     cb();
   });
 };
 
 
 imgFiltersForm.addEventListener('click', (evt) => {
-  filterButtons.forEach((item) => {
-    if(evt.target.id !== item.id) {
-      item.classList.remove('img-filters__button--active');
-    } else {
-      item.classList.add('img-filters__button--active');
-    }
-
-  });
+  filterButtons.forEach((item) =>
+    item.classList.toggle('img-filters__button--active', evt.target.id === item.id)
+  );
 });
 
 const showFilters = () => {
@@ -40,4 +35,4 @@ const showFilters = () => {
   imgFilters.classList.remove('img-filters--inactive');
 };
 
-export {showFilters, setRandomClick, setDiscussedClick, setDefaultСlick};
+export { showFilters, setRandomClick, setDiscussedClick, setDefaultСlick };

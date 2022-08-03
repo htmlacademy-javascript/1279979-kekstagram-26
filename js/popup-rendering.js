@@ -12,21 +12,21 @@ const allCommentCount = bigPicture.querySelector('.social__comment-count .commen
 const fullPhotoDescription = bigPicture.querySelector('.social__caption');
 const loadCommentButton = bigPicture.querySelector('.social__comments-loader');
 
-let closeFullPhoto = null;
-let onRenderOtherComments;
-let renderCommentsList;
 const MAX_NUMBER_COMMENTS = 5;
-let commentsCount = 0;
 
-const hideButtonLoadMore = (data) => {
-  if(commentsCount >= data.comments.length) {
+let closeFullPhoto = null;
+let commentsCount = 0;
+let serverData = null;
+
+const hideButtonLoadMore = () => {
+  if (commentsCount >= serverData.comments.length) {
     loadCommentButton.classList.toggle('hidden');
   }
 };
 
 const createComment = (value) => {
   const newCommentItem = commentItem.cloneNode(true);
-  newCommentItem.dataset.id = value.id;
+
   newCommentItem.querySelector('.social__picture').src = value.avatar;
   newCommentItem.querySelector('.social__picture').alt = value.name;
   newCommentItem.querySelector('.social__text').textContent = value.message;
@@ -34,14 +34,18 @@ const createComment = (value) => {
   return newCommentItem;
 };
 
-const createCommentsList = (dataArrayComments) => {
-  const newCommentListFragment = document.createDocumentFragment();
-  dataArrayComments.slice(0, MAX_NUMBER_COMMENTS).forEach((dataArrayComment) => {
-    newCommentListFragment.append(createComment(dataArrayComment));
-  });
-  commentList.append(newCommentListFragment);
-  currentCommentCount.textContent = `${commentList.children.length} из ${allCommentCount.textContent} комментариев`;
+const renderCommentsPart = () => {
+  const commentListFragment = document.createDocumentFragment();
+  const newComments = serverData.comments.slice(commentsCount, commentsCount + MAX_NUMBER_COMMENTS);
+  const commentElements = newComments.map(createComment);
 
+  commentListFragment.append(...commentElements);
+  commentList.append(commentListFragment);
+
+  commentsCount += newComments.length;
+  currentCommentCount.textContent = `${commentsCount} из ${serverData.comments.length} комментариев`;
+
+  hideButtonLoadMore();
 };
 
 const onPopupKeyDown = (evt) => {
@@ -49,37 +53,9 @@ const onPopupKeyDown = (evt) => {
     closeFullPhoto();
   }
 };
+
 const onCloseButtonClick = () => {
   closeFullPhoto();
-};
-
-const createFullPhoto = (data) => {
-  fullPhoto.src = data.url;
-  likesCount.textContent = data.likes;
-  allCommentCount.textContent = data.comments.length;
-  fullPhotoDescription.textContent = data.description;
-  createCommentsList(data.comments);
-  commentsCount = commentList.children.length;
-  onRenderOtherComments = () => {
-    const uniqueComments = [];
-    const comments = data.comments;
-    commentsCount += MAX_NUMBER_COMMENTS;
-    renderCommentsList = Array.from(commentList.children);
-
-    comments.forEach((comment) => {
-      const uniquecomments = renderCommentsList.some((element) => (+element.dataset.id === comment.id));
-
-      if(!uniquecomments) {
-        uniqueComments.push(comment);
-      }
-    });
-    createCommentsList(uniqueComments);
-    hideButtonLoadMore(data);
-  };
-
-  hideButtonLoadMore(data);
-
-  loadCommentButton.addEventListener('click', onRenderOtherComments);
 };
 
 const openFullPhoto = () => {
@@ -90,20 +66,31 @@ const openFullPhoto = () => {
   closeButton.addEventListener('click', onCloseButtonClick);
 };
 
+const createFullPhoto = (data) => {
+  openFullPhoto();
+
+  fullPhoto.src = data.url;
+  likesCount.textContent = data.likes;
+  allCommentCount.textContent = data.comments.length;
+  fullPhotoDescription.textContent = data.description;
+
+  commentsCount = 0;
+  serverData = data;
+  renderCommentsPart();
+  loadCommentButton.addEventListener('click', renderCommentsPart);
+};
+
 
 closeFullPhoto = () => {
   bigPicture.classList.add('hidden');
   document.removeEventListener('keydown', onPopupKeyDown);
   document.body.classList.remove('modal-open');
   commentList.innerHTML = '';
-  loadCommentButton.removeEventListener('click', onRenderOtherComments);
-  commentsCount = 0;
+  // loadCommentButton.removeEventListener('click', onRenderOtherComments);
   closeButton.removeEventListener('click', onCloseButtonClick);
 };
 
-
 closeFullPhoto();
-
 
 export { createFullPhoto, openFullPhoto, closeFullPhoto };
 
